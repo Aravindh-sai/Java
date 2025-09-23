@@ -1,0 +1,139 @@
+MATRIX CHEAT SHEET FOR CODING INTERVIEWS (LeetCode Style)
+
+1. Accessing Matrix Elements
+----------------------------
+int rows = matrix.length;
+int cols = matrix[0].length;
+
+matrix[i][j] // element at row i and column j
+
+2. Matrix Rotation
+------------------
+
+90° Clockwise:
+rotated[j][n - 1 - i] = mat[i][j]; // (i, j) → (j, n - 1 - i)
+
+90° Counter-clockwise:
+rotated[n - 1 - j][i] = mat[i][j]; // (i, j) → (n - 1 - j, i)
+
+180° Rotation:
+rotated[n - 1 - i][n - 1 - j] = mat[i][j]; // (i, j) → (n - 1 - i, n - 1 - j)
+
+3. In-place Transpose (Square matrix only)
+------------------------------------------
+for (int i = 0; i < n; i++) {
+    for (int j = i + 1; j < n; j++) {
+        int temp = matrix[i][j];
+        matrix[i][j] = matrix[j][i];
+        matrix[j][i] = temp;
+    }
+}
+
+4. Row and Column Flips
+------------------------
+
+Horizontal Flip (reverse each row):
+for (int i = 0; i < n; i++) {
+    for (int j = 0, k = n - 1; j < k; j++, k--) {
+        int temp = mat[i][j];
+        mat[i][j] = mat[i][k];
+        mat[i][k] = temp;
+    }
+}
+
+Vertical Flip (reverse each column):
+for (int j = 0; j < cols; j++) {
+    for (int i = 0, k = rows - 1; i < k; i++, k--) {
+        int temp = mat[i][j];
+        mat[i][j] = mat[k][j];
+        mat[k][j] = temp;
+    }
+}
+
+5. Diagonal Sums
+----------------
+for (int i = 0; i < n; i++) {
+    sum += mat[i][i] + mat[i][n - 1 - i];
+}
+if (n % 2 == 1) sum -= mat[n / 2][n / 2]; // avoid double-counting center
+
+6. Traversal Patterns
+---------------------
+
+Row-wise:
+for (int i = 0; i < rows; i++)
+    for (int j = 0; j < cols; j++)
+        process(matrix[i][j]);
+
+Column-wise:
+for (int j = 0; j < cols; j++)
+    for (int i = 0; i < rows; i++)
+        process(matrix[i][j]);
+
+Reverse Row-wise:
+for (int i = rows - 1; i >= 0; i--)
+    for (int j = cols - 1; j >= 0; j--)
+        process(matrix[i][j]);
+
+7. Spiral Order Traversal
+-------------------------
+int top = 0, bottom = rows - 1, left = 0, right = cols - 1;
+
+while (top <= bottom && left <= right) {
+    for (int i = left; i <= right; i++) result.add(matrix[top][i]);
+    top++;
+
+    for (int i = top; i <= bottom; i++) result.add(matrix[i][right]);
+    right--;
+
+    if (top <= bottom) {
+        for (int i = right; i >= left; i--) result.add(matrix[bottom][i]);
+        bottom--;
+    }
+
+    if (left <= right) {
+        for (int i = bottom; i >= top; i--) result.add(matrix[i][left]);
+        left++;
+    }
+}
+
+8. Set Matrix Zeroes (if any cell is 0, set its row and column to 0)
+--------------------------------------------------------------------
+boolean[] row = new boolean[matrix.length];
+boolean[] col = new boolean[matrix[0].length];
+
+for (int i = 0; i < matrix.length; i++) {
+    for (int j = 0; j < matrix[0].length; j++) {
+        if (matrix[i][j] == 0) {
+            row[i] = true;
+            col[j] = true;
+        }
+    }
+}
+
+for (int i = 0; i < matrix.length; i++) {
+    for (int j = 0; j < matrix[0].length; j++) {
+        if (row[i] || col[j]) {
+            matrix[i][j] = 0;
+        }
+    }
+}
+
+9. Compare Two Matrices
+-----------------------
+for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+        if (mat[i][j] != target[i][j]) return false;
+    }
+}
+return true;
+
+10. Direction Arrays (for BFS/DFS/Grid Traversal)
+-------------------------------------------------
+int[] dx = {0, 1, 0, -1}; // right, down, left, up
+int[] dy = {1, 0, -1, 0};
+
+for (int d = 0; d < 4; d++) {
+    int newX = x + dx[d];
+    int newY = y + dy[d];
+}
