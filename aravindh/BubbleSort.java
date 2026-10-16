@@ -11,8 +11,9 @@ public static void main(String[] args) {
     in.close();
 }
     static void bubble(int [] arr){
-        boolean swapped = false;
+        boolean swapped;
        for(int i=0; i<arr.length-1;i++){
+        swapped = false;
         for(int j=1; j< arr.length-i;j++){
             if(arr[j]<arr[j-1]){
                 int temp = arr[j];
